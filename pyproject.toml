@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mcs51-sim"
+version = "0.1.0"
+description = "Minimal Intel 8051 / MCS-51 hex and bin simulator"
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "Codex" }
+]
+
+[project.scripts]
+mcs51-sim = "mcs51.cli:main"
+mcs51-build = "mcs51.build:main"
+mcs51-gui = "mcs51.gui:main"
+
+[tool.setuptools]
+packages = ["mcs51"]

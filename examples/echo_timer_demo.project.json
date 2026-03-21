@@ -1,0 +1,7 @@
+{
+  "image": "echo_timer_demo.hex",
+  "symbols": "echo_timer_demo.sym.json",
+  "runtime": "echo_timer_demo.runtime.json",
+  "max_instructions": 512,
+  "trace_interrupts": true
+}

@@ -1,0 +1,26 @@
+{
+  "image": "echo_timer_demo.hex",
+  "symbols": "echo_timer_demo.sym.json",
+  "runtime": "echo_timer_demo.runtime.json",
+  "max_instructions": 512,
+  "breakpoints": [
+    "main_loop"
+  ],
+  "watchpoints": [
+    "30H",
+    "log:rise:TR0"
+  ],
+  "watch_log": true,
+  "inspect": [
+    "30H",
+    "P1.0",
+    "TMOD",
+    "TR0"
+  ],
+  "dump_direct": [
+    "0x88:2"
+  ],
+  "trace_file": "echo_timer_demo.trace.txt",
+  "trace_limit": 32,
+  "trace_interrupts": true
+}

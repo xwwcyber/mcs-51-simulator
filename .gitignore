@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.bin
+*.hex
+*.sym.json
+*.trace.txt
+temp_*.txt
+.venv/
+venv/
+dist/
+build/
+*.egg-info/
