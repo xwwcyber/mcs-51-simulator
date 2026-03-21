@@ -4,6 +4,8 @@ from collections import deque
 from dataclasses import dataclass
 from typing import Callable
 
+from .peripheral import I2CBus, SPIBus
+
 
 class UnsupportedOpcodeError(RuntimeError):
     """Raised when the emulator encounters an opcode it does not support."""
@@ -17,6 +19,8 @@ class ExecutionResult:
     serial_output: bytes
     port_log: tuple[tuple[int, str, int], ...]
     interrupt_log: tuple[tuple[int, str, int], ...]
+    i2c_log: tuple[tuple[int, str], ...]
+    spi_log: tuple[tuple[int, str], ...]
 
 
 class MCS51:
@@ -112,6 +116,8 @@ class MCS51:
         self.instructions = 0
         self.ticks = 0
         self.pc = 0
+        self.i2c = I2CBus()
+        self.spi = SPIBus()
         self.reset(entry_point=entry_point)
 
         if serial_input:
@@ -133,6 +139,8 @@ class MCS51:
         self.instructions = 0
         self.ticks = 0
         self.pc = entry_point & 0xFFFF
+        self.i2c.reset()
+        self.spi.reset()
 
         self._write_sfr_raw(self.SP_ADDR, 0x07)
         self._write_sfr_raw(0x80, 0xFF)
@@ -279,6 +287,8 @@ class MCS51:
 
         if address in self.PORT_NAMES and old_value != masked:
             self.port_log.append((self.instructions, self.PORT_NAMES[address], masked))
+            self.i2c.on_port_write(address, old_value, masked, self.ticks)
+            self.spi.on_port_write(address, old_value, masked, self.ticks)
 
         if address == self.SBUF_ADDR:
             self.serial_output.append(masked)
@@ -292,6 +302,17 @@ class MCS51:
             return self.iram[masked]
         if masked == self.SBUF_ADDR:
             return self.serial_rx_buffer
+        if masked == 0x90:  # P1 - 注入 SPI MISO
+            return self.spi.inject_miso_into_port(self._get_sfr(masked))
+        if masked == 0xB0:  # P3 - 注入 I2C SDA
+            port_val = self._get_sfr(masked)
+            sda_bit = self.i2c.get_sda_output()
+            if sda_bit is None:
+                return port_val
+            if sda_bit:
+                return port_val | 0x80
+            else:
+                return port_val & 0x7F
         return self._get_sfr(masked)
 
     def write_direct(self, address: int, value: int) -> None:
@@ -591,6 +612,8 @@ class MCS51:
             or self._timer0_split_high_should_tick()
             or self._serial_can_deliver()
             or self._interrupts_can_progress()
+            or self.i2c.has_pending
+            or self.spi.has_pending
         )
 
     def _service_interrupt(self) -> bool:
@@ -1008,4 +1031,6 @@ class MCS51:
             serial_output=bytes(self.serial_output),
             port_log=tuple(self.port_log),
             interrupt_log=tuple(self.interrupt_log),
+            i2c_log=tuple(self.i2c.log),
+            spi_log=tuple(self.spi.log),
         )

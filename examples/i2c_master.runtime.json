@@ -1,0 +1,5 @@
+{
+  "events": [
+    {"tick": 0, "type": "i2c_response", "hex": "55"}
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "events": [
+    {"tick": 0, "type": "spi_response", "hex": "55"}
+  ]
+}

@@ -106,6 +106,14 @@ def _apply_event(cpu: MCS51, event: RuntimeEvent) -> None:
         cpu.pulse_external_counter(1, event.count)
         return
 
+    if event.event_type == "i2c_response":
+        cpu.i2c.inject_response(_parse_hex_bytes(event.hex_bytes))
+        return
+
+    if event.event_type == "spi_response":
+        cpu.spi.inject_response(_parse_hex_bytes(event.hex_bytes))
+        return
+
     raise RuntimeConfigError(f"unsupported runtime event type: {event.event_type}")
 
 

@@ -1,0 +1,7 @@
+{
+  "image": "i2c_master.asm",
+  "runtime": "i2c_master.runtime.json",
+  "max_instructions": 5000,
+  "trace_i2c": true,
+  "tight_loop_detect": false
+}

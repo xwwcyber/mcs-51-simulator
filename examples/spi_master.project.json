@@ -1,0 +1,7 @@
+{
+  "image": "spi_master.asm",
+  "runtime": "spi_master.runtime.json",
+  "max_instructions": 5000,
+  "trace_spi": true,
+  "tight_loop_detect": false
+}
