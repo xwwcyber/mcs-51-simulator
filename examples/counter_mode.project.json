@@ -1,0 +1,7 @@
+{
+  "image": "counter_mode.asm",
+  "runtime": "counter_mode.runtime.json",
+  "max_instructions": 1000,
+  "trace_interrupts": true,
+  "tight_loop_detect": false
+}

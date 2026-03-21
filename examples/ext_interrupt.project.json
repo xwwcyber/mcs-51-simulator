@@ -1,0 +1,7 @@
+{
+  "image": "ext_interrupt.asm",
+  "runtime": "ext_interrupt.runtime.json",
+  "max_instructions": 1000,
+  "trace_interrupts": true,
+  "tight_loop_detect": false
+}

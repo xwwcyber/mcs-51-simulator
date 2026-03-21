@@ -1,0 +1,6 @@
+{
+  "image": "pwm_timer.asm",
+  "max_instructions": 2000,
+  "trace_ports": true,
+  "trace_interrupts": true
+}

@@ -1,0 +1,8 @@
+{
+  "events": [
+    {
+      "tick": 200,
+      "type": "extint0"
+    }
+  ]
+}

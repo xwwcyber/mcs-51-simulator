@@ -1,0 +1,9 @@
+{
+  "events": [
+    {
+      "tick": 50,
+      "type": "counter0",
+      "count": 10
+    }
+  ]
+}
