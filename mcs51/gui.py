@@ -66,6 +66,8 @@ class RunCommandConfig:
     list_symbols: bool = False
     trace_ports: bool = False
     trace_interrupts: bool = False
+    trace_i2c: bool = False
+    trace_spi: bool = False
     dump_iram: bool = False
     dump_sfr: bool = False
     tight_loop_detect: bool = True
@@ -136,6 +138,10 @@ def build_run_argv(config: RunCommandConfig) -> list[str]:
         argv.append("--trace-ports")
     if config.trace_interrupts:
         argv.append("--trace-interrupts")
+    if config.trace_i2c:
+        argv.append("--trace-i2c")
+    if config.trace_spi:
+        argv.append("--trace-spi")
     if config.dump_iram:
         argv.append("--dump-iram")
     if config.dump_sfr:
@@ -225,6 +231,8 @@ class EmulatorGui:
         self.list_symbols_var = tk.BooleanVar(value=False)
         self.trace_ports_var = tk.BooleanVar(value=False)
         self.trace_interrupts_var = tk.BooleanVar(value=True)
+        self.trace_i2c_var = tk.BooleanVar(value=False)
+        self.trace_spi_var = tk.BooleanVar(value=False)
         self.dump_iram_var = tk.BooleanVar(value=False)
         self.dump_sfr_var = tk.BooleanVar(value=False)
         self.tight_loop_detect_var = tk.BooleanVar(value=True)
@@ -431,7 +439,9 @@ class EmulatorGui:
         ttk.Checkbutton(toggles, text="Trace Interrupts", variable=self.trace_interrupts_var).grid(row=0, column=3, sticky="w", padx=8, pady=6)
         ttk.Checkbutton(toggles, text="Dump IRAM", variable=self.dump_iram_var).grid(row=1, column=0, sticky="w", padx=8, pady=6)
         ttk.Checkbutton(toggles, text="Dump SFR", variable=self.dump_sfr_var).grid(row=1, column=1, sticky="w", padx=8, pady=6)
-        ttk.Checkbutton(toggles, text="Tight Loop Detect", variable=self.tight_loop_detect_var).grid(row=1, column=2, sticky="w", padx=8, pady=6)
+        ttk.Checkbutton(toggles, text="Trace I2C", variable=self.trace_i2c_var).grid(row=1, column=2, sticky="w", padx=8, pady=6)
+        ttk.Checkbutton(toggles, text="Trace SPI", variable=self.trace_spi_var).grid(row=1, column=3, sticky="w", padx=8, pady=6)
+        ttk.Checkbutton(toggles, text="Tight Loop Detect", variable=self.tight_loop_detect_var).grid(row=2, column=0, sticky="w", padx=8, pady=6)
 
         actions = ttk.Frame(parent)
         actions.grid(row=4, column=0, sticky="nsew")
@@ -537,6 +547,8 @@ class EmulatorGui:
             self.list_symbols_var,
             self.trace_ports_var,
             self.trace_interrupts_var,
+            self.trace_i2c_var,
+            self.trace_spi_var,
             self.dump_iram_var,
             self.dump_sfr_var,
             self.tight_loop_detect_var,
@@ -599,6 +611,8 @@ class EmulatorGui:
             list_symbols=self.list_symbols_var.get(),
             trace_ports=self.trace_ports_var.get(),
             trace_interrupts=self.trace_interrupts_var.get(),
+            trace_i2c=self.trace_i2c_var.get(),
+            trace_spi=self.trace_spi_var.get(),
             dump_iram=self.dump_iram_var.get(),
             dump_sfr=self.dump_sfr_var.get(),
             tight_loop_detect=self.tight_loop_detect_var.get(),
@@ -892,6 +906,8 @@ class EmulatorGui:
         self.list_symbols_var.set(False)
         self.trace_ports_var.set(False)
         self.trace_interrupts_var.set(True)
+        self.trace_i2c_var.set(False)
+        self.trace_spi_var.set(False)
         self.dump_iram_var.set(False)
         self.dump_sfr_var.set(False)
         self.tight_loop_detect_var.set(True)
