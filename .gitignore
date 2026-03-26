@@ -5,6 +5,7 @@ __pycache__/
 *.sym.json
 *.trace.txt
 temp_*.txt
+docs/
 .venv/
 venv/
 dist/
